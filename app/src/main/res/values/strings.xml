@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vynx Sender</string>
+    <string name="target_hint">Target JID (e.g. 62812xxxx@s.whatsapp.net)</string>
+    <string name="send_btn">SEND PAYLOAD</string>
+    <string name="status_ready">Ready. Scan QR on WhatsApp Web.</string>
+    <string name="status_sent">Payload sent!</string>
+    <string name="status_error">Error sending payload</string>
+</resources>
