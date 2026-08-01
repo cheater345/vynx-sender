@@ -27,8 +27,28 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleRelease
 
-      - name: Upload APK Artifact
+      - name: Generate Keystore
+        run: |
+          keytool -genkey -v \
+            -keystore debug.keystore \
+            -alias debug \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=US"
+
+      - name: Sign APK
+        run: |
+          $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
+            --ks debug.keystore \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: vynx-sender-apk
+          name: vynx-sender-signed
           path: app/build/outputs/apk/release/app-release-unsigned.apk
