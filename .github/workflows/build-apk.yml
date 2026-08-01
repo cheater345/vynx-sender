@@ -39,16 +39,18 @@ jobs:
             -keypass android \
             -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=US"
 
-      - name: Sign APK
+      - name: Sign and Rename APK
         run: |
+          cp app/build/outputs/apk/release/app-release-unsigned.apk vynx-sender.apk
           $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
             --ks debug.keystore \
             --ks-pass pass:android \
             --key-pass pass:android \
-            app/build/outputs/apk/release/app-release-unsigned.apk
+            vynx-sender.apk
+          $ANDROID_HOME/build-tools/34.0.0/apksigner verify vynx-sender.apk
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
           name: vynx-sender-signed
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          path: vynx-sender.apk
